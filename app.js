@@ -1,3 +1,3 @@
 if (Meteor.isClient) {
-	angular.mobile('socially', ['angular-meteor']);
+	angular.module('socially', ['angular-meteor']);
 }
