@@ -6,10 +6,18 @@ angular.module('socially').directive('partyDetails', function() {
 		controllerAs: 'partyDetails',
 		controller: function($scope, $stateParams, $reactive) {
 			$reactive(this).attach($scope);
-			//Find the appropriate party
+			//Subscribe to 'parties' AND 'users' publications
+			this.suibscribe('parties');
+			this.subscribe('users');
+			//Define helper fxns for details component
 			this.helpers({
+				//Find selected party
 				party: () => {
 					return Parties.findOne({_id: $stateParams.partyId});
+				},
+				//Find all accessible users (their emails & profiles)
+				users: () => {
+					return Meteor.users.find({});
 				}
 			});
 			//Save/update the name & description of the current party
@@ -17,7 +25,8 @@ angular.module('socially').directive('partyDetails', function() {
 				Parties.update({_id: $stateParams.partyId}, {
 					$set: {
 						name: this.party.name,
-						description: this.party.description
+						description: this.party.description,
+						'public': this.party.public
 					}
 				}, (error) => {
 					if (error) {

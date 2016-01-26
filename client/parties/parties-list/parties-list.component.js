@@ -8,6 +8,8 @@ angular.module('socially').directive('partiesList', function() {
 			$reactive(this).attach($scope);
 			// Declare newParty variable
 			this.newParty = {};
+			//Subscribe to 'parties' publication
+			this.subscribe('parties');
 			// List parties from Collection
 			this.helpers({
 				parties: () => {
