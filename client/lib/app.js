@@ -7,7 +7,7 @@ Add package dependencies
 angular.module('socially', [
 	'angular-meteor',
 	'ui.router',
-	'accounts-ui'
+	'accounts.ui'
 ]);
 
 //bootstrap Angular according to platform (browser v mobile)
