@@ -9,3 +9,15 @@ angular.module('socially', [
 	'ui.router',
 	'accounts-ui'
 ]);
+
+//bootstrap Angular according to platform (browser v mobile)
+function onReady() {
+  angular.bootstrap(document, ['socially'], {
+    strictDi: true
+  });
+}
+ 
+if (Meteor.isCordova)
+  angular.element(document).on("deviceready", onReady);
+else
+  angular.element(document).ready(onReady);

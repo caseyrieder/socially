@@ -10,6 +10,6 @@ The party you selected is:
 <ul>
 	Users:
 	<li ng-repeat="user in partyDetails.users">
-		<div>{{ user.emails[0].address }}</div>
+		<div>{{ user.emails[0].address || user.profile[0].name }}</div>
 	</li>
 </ul>
