@@ -3,11 +3,13 @@ Add package dependencies
 -angular for meteor
 -ui router to handle deep linking
 -login, signup, password stuff, security
+-pagination directives
 */
 angular.module('socially', [
 	'angular-meteor',
 	'ui.router',
-	'accounts.ui'
+	'accounts.ui',
+	'angularUtils.directives.dirPagination'
 ]);
 
 //bootstrap Angular according to platform (browser v mobile)

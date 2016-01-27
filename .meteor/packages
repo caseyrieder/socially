@@ -21,3 +21,5 @@ dotansimha:accounts-ui-angular
 accounts-facebook
 accounts-twitter
 accounts-google
+angularutils:pagination
+tmeasday:publish-counts
