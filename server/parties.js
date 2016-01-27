@@ -22,7 +22,7 @@ Meteor.publish("parties", function (options, searchString) {
 				]
 			}
 		]
-	});
+	};
 	//Count all parties gathered by selector
 	//Ensure that publication waits for our main cursor to be ready
 	Counts.publish(this, 'numberOfParties', Parties.find(selector), {noReady: true});
