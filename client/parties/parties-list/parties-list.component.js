@@ -8,12 +8,26 @@ angular.module('socially').directive('partiesList', function() {
 			$reactive(this).attach($scope);
 			// Declare newParty variable
 			this.newParty = {};
-			//Subscribe to 'parties' publication
-			this.subscribe('parties');
+			//Add pagination default params
+			this.perPage = 3;
+			this.page = 1;
+			this.sort = {
+				name: 1
+			};
+			//Subscribe to 'parties' publication, include subscription params
+			this.subscribe('parties', () => {
+				return [
+					{
+						limit: parseInt(this.perPage),
+						skip: parseInt((this.getReactively('page') - 1) * this.perPage),
+						sort: this.getReactively('sort')
+					}
+				]
+			});
 			// List parties from Collection
 			this.helpers({
 				parties: () => {
-					return Parties.find({});
+					return Parties.find({}, { sort: this.getReactively('sort') });
 				}
 			});
 			// Insert party into Collection

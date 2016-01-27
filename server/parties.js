@@ -1,5 +1,5 @@
 //Publish all public parties & parties owned by current user
-Meteor.publish("parties", function () {
+Meteor.publish("parties", function (options) {
 	return Parties.find({
 		$or: [
 			{
@@ -15,5 +15,5 @@ Meteor.publish("parties", function () {
 				]
 			}
 		]
-	});
+	}, options);
 });
