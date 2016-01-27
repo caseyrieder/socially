@@ -31,7 +31,12 @@ Meteor.publish("parties", function (options, searchString) {
 			}
 		]
 	};
+<<<<<<< HEAD
 
+=======
+	//Count all parties gathered by selector
+	//Ensure that publication waits for our main cursor to be ready
+>>>>>>> angular_filters
 	Counts.publish(this, 'numberOfParties', Parties.find(selector), {noReady: true});
 	return Parties.find(selector, options);
 });
