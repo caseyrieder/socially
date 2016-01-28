@@ -7,7 +7,7 @@ Meteor.publish("parties", function (options, searchString) {
 	let selector = {
 		//Enable user-define string searching
 		name: { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
-		//Select all parties that are public OR owned by current user
+		//Select all parties that are public, owned by current user, or to which the user has been invited
 		$or: [
 			{
 				$and: [
@@ -19,6 +19,12 @@ Meteor.publish("parties", function (options, searchString) {
 				$and: [
 					{owner: this.userId},
 					{owner: {$exists: true}}
+				]
+			},
+			{
+				$and: [
+					{invited: this.userId},
+					{invited: {$exists:true}}
 				]
 			}
 		]

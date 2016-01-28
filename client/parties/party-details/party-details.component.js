@@ -36,7 +36,17 @@ angular.module('socially').directive('partyDetails', function() {
 					}
 				});
 			};
-
+			//Invite user to a private party
+			this.invite = (user) => {
+				//Call the 'invite' method defined in the parties model
+				Meteor.call('invite', this.party._id, user._id, (error) => {
+					if (error) {
+						console.log('Oops, unable to invite!');
+					} else {
+						console.log('Invited!');
+					}
+				});
+			};
 		}
 	}
 });
