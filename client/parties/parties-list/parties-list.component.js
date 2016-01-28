@@ -35,6 +35,10 @@ angular.module('socially').directive('partiesList', function() {
 				parties: () => {
 					return Parties.find({}, { sort: this.getReactively('sort') });
 				},
+				// List users from Collection
+				users: () => {
+					return Meteor.users.find({});
+				},
 				// Count total parties (from server/parties.js)
 				partiesCount: () => {
 					return Counts.get('numberOfParties');
@@ -60,23 +64,41 @@ angular.module('socially').directive('partiesList', function() {
 					name: parseInt(this.orderProperty)
 				}
 			};
-			// Define method for gathering the party owner
+			// Define method for gathering the party owner & returning appropriate name
 			this.getPartyCreator = function(party) {
 				if (!party) {
 					return '';
 				}
-
 				let owner = Meteor.users.findOne(party.owner);
-
 				if (!owner) {
 					return 'nobody';
 				}
-
 				if (Meteor.userId() !== null && owner._id === Meteor.userId()) {
 					return 'me';
 				}
-
 				return owner;
+			};
+			// RSVP to specific party
+			this.rsvp = (partyId, rsvp) => {
+				//Call model's rsvp method w/appropriate args & error callback
+				Meteor.call('rsvp', partyId, rsvp, (error) => {
+					if (error) {
+						console.log('Oops, unable to rsvp!');
+					}
+					else {
+						console.log('RSVP Done!');
+					}
+				});
+			};
+			// Find a user's Id
+			this.getUserById = (userId) => {
+				return Meteor.users.findOne(userId);
+			};
+			// Find users that ARE invited but ARE NOT in RSVPs
+			this.outstandingInvitations = (party) => {
+				return _.filter(this.users, (user) => {
+					return (_.contains(party.invited, user._id) && !_.findWhere(party.rsvps, {user: user._id}));
+				});
 			};
 		}
 	}
