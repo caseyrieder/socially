@@ -1,5 +1,5 @@
 <!-- New Party form -->
-<form>
+<form ng-show="partiesList.isLoggedIn">
 	<label>Party Name:	</label>
 	<input type="text" ng-model="partiesList.newParty.name" />
 	<label>Description: </label>
@@ -8,6 +8,10 @@
 	<input type="checkbox" ng-model="partiesList.newParty.public">
 	<button ng-click="partiesList.addParty()">Add Party!</button>
 </form>
+<!-- Tell user to log in -->
+<div ng-hide="partiesList.isLoggedIn">
+	Log in to create a party!
+</div>
 <!-- Reactive Party Searcher/Sorter -->
 <h1>Parties: </h1>
 <div>
@@ -22,12 +26,16 @@
 	<li ui-sref="partyDetails({ partyId: party._id })" dir-paginate="party in partiesList.parties | itemsPerPage: partiesList.perPage" total-items="partiesList.partiesCount">
 		{{party.name}}
 		<p>{{party.description}}</p>
-		<button ng-click="partiesList.removeParty(party)">X</button>
+		<button ng-click="partiesList.removeParty(party)" ng-show="partiesList.isLoggedIn && party.owner == partiesList.currentUserId">X</button>
 		<!-- RSVPs -->
-		<div>
+		<div ng-show="partiesList.isLoggedIn">
 			<input type="button" value="I'm going!" ng-click="partiesList.rsvp(party._id, 'yes')">
 			<input type="button" value="Maybe" ng-click="partiesList.rsvp(party._id, 'maybe')">
 			<input type="button" value="No" ng-click="partiesList.rsvp(party._id, 'no')">
+		</div>
+		<!-- Tell user to log in -->
+		<div ng-hide="partiesList.isLoggedIn">
+			Sign in to RSVP for this party!
 		</div>
 		<!-- Add RSVP status -->
 		<div>
@@ -49,13 +57,17 @@
 				{{ partiesList.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
 			</div>
 		</div>
-		<!-- List users who have no yet responded -->
-		<ul>
+		<!-- List users who have no yet responded to private parties -->
+		<ul ng-if="!party.public">
 			Users who have not yet responded:
 			<li ng-repeat="invitedUser in partiesList.outstandingInvitations(party">
 				{{ invitedUser | displayName }}
 			</li>
 		</ul>
+		<!-- Only show for public parties -->
+		<div ng-if="party.public">
+			Everyone is invited
+		</div>
 		<!-- Show owner -->
 		<p><small>Posted by {{ partiesList.getPartyCreator(party) | displayName }}</small></p>
 	</li>

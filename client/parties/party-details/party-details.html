@@ -1,16 +1,20 @@
 The party you selected is:
 <form>
-	Party: <input type="text" ng-model="partyDetails.party.name" />
-	Description: <input type="text" ng-model="partyDetails.party.description" />
-	Public? <input type="checkbox" ng-model="partyDetails.party.public">
+	Party: <input type="text" ng-model="partyDetails.party.name" ng-disabled="!partyDetails.isLoggedIn" />
+	Description: <input type="text" ng-model="partyDetails.party.description" ng-disabled="!partyDetails.isLoggedIn" />
+	Public? <input type="checkbox" ng-model="partyDetails.party.public" ng-disabled="!partyDetails.isLoggedIn" />
 	<button ng-click="partyDetails.save()">Save</button>
 </form>
 <button ui-sref="parties">Back</button>
-
-<ul>
+<!-- List users that we may want to invite -->
+<ul ng-show="partyDetails.canInvite()">
 	Users to invite:
 	<li ng-repeat="user in partyDetails.users | uninvited:partyDetails.party">
 		<div>{{ user | displayName }}</div>
 		<button ng-click="partyDetails.invite(user)">Invite</button>
+	</li>
+	<!-- Only show if all possible invitees are invited -->
+	<li ng-if="(partyDetails.users | uninvited:partyDetails.party).length <= 0">
+		Everyone is already invited
 	</li>
 </ul>

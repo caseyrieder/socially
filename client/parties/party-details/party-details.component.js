@@ -18,7 +18,11 @@ angular.module('socially').directive('partyDetails', function() {
 				//Find all accessible users (their emails & profiles)
 				users: () => {
 					return Meteor.users.find({});
-				}
+				},
+				//Ensure that user is logged in
+				isLoggedIn: () = {
+					return Meteor.userId() !== null;
+				};
 			});
 			//Save/update the name & description of the current party
 			this.save = () => {
@@ -46,6 +50,12 @@ angular.module('socially').directive('partyDetails', function() {
 						console.log('Invited!');
 					}
 				});
+			};
+			//Handle permissions to determine is invitations should be shown
+			this.canInvite = () => {
+				if (!this.party)
+					return false;
+				return !this.party.public && this.party.owner === Meteor.userId();
 			};
 		}
 	}

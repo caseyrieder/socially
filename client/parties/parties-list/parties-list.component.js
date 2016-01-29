@@ -42,6 +42,14 @@ angular.module('socially').directive('partiesList', function() {
 				// Count total parties (from server/parties.js)
 				partiesCount: () => {
 					return Counts.get('numberOfParties');
+				},
+				// Determine is user is logged in
+				isLoggedIn: () => {
+					return Meteor.userId() !== null;
+				},
+				// Get the current user Id
+				currentUserId: () => {
+					return Meteor.userId();
 				}
 			});
 			// Insert party into Collection
