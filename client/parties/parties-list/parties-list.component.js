@@ -16,6 +16,14 @@ angular.module('socially').directive('partiesList', function() {
 			};
 			this.orderProperty = '1';
 			this.searchText = '';
+			//Add map logic & initialize map object
+			this.map = {
+				center: {
+					latitude: 45,
+					longitude: -73
+				},
+				zoom: 8
+			};
 			//Subscribe to 'users' publication
 			this.subscribe('users');
 			//Subscribe to 'parties' publication, include subscription params

@@ -4,12 +4,14 @@ Add package dependencies
 -ui router to handle deep linking
 -login, signup, password stuff, security
 -pagination directives
+-google maps
 */
 angular.module('socially', [
 	'angular-meteor',
 	'ui.router',
 	'accounts.ui',
-	'angularUtils.directives.dirPagination'
+	'angularUtils.directives.dirPagination',
+	'uiGmapgoogle-maps'
 ]);
 
 //bootstrap Angular according to platform (browser v mobile)

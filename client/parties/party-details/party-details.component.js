@@ -22,15 +22,53 @@ angular.module('socially').directive('partyDetails', function() {
 				//Ensure that user is logged in
 				isLoggedIn: () = {
 					return Meteor.userId() !== null;
-				};
+				}
 			});
+			//Define default map parameters
+			this.map = {
+				center: {
+					latitude: 45,
+					longitude: -73
+				},
+				zoom: 8,
+				events: {
+					click: (mapModel, eventName, originalEventArgs) => {
+						//Ignore click for non-party
+						if (!this.party)
+							return;
+						//Set empty object for location-less party
+						if (!this.party.location)
+							this.party.location = {};
+						//Assign lat & long based on click location
+						this.party.location.latitude = originalEventArgs[0].latLng.lat();
+						this.party.location.longitude = originalEventArgs[0].latLng.lng();
+						//apply to scope because this event handler is outside angular domain
+						$scope.$apply();
+					}
+				},
+				marker: {
+					//Set marker to be draggable
+					options: { draggable: true },
+					events: {
+						dragend: (marker, eventName, args) => {
+							//If party is location-less on drag end, set as empty object
+							if (!this.party.location)
+								this.party.location = {};
+							//Set new location based on drag end location
+							this.party.location.latitude = marker.getPosition().lat();
+							this.party.location.longitude = marker.getPosition().lng();
+						}
+					}
+				}
+			};
 			//Save/update the name & description of the current party
 			this.save = () => {
 				Parties.update({_id: $stateParams.partyId}, {
 					$set: {
 						name: this.party.name,
 						description: this.party.description,
-						'public': this.party.public
+						'public': this.party.public,
+						location: this.party.location
 					}
 				}, (error) => {
 					if (error) {

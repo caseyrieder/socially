@@ -18,3 +18,17 @@ The party you selected is:
 		Everyone is already invited
 	</li>
 </ul>
+<!-- Add Google map to template -->
+<div class="angular-google-map-container">
+	<ui-gmap-google-map
+			center="partyDetails.party.location || partyDetails.map.center"
+			events="partyDetails.map.events"
+			zoom="partyDetails.map.zoom">
+		<ui-gmap-marker
+				coords="partyDetails.party.location"
+				options="partyDetails.map.marker.options"
+				events="partyDetails.map.marker.events"
+				idKey="partyDetails.party._id">
+		</ui-gmap-marker>
+	</ui-gmap-google-map>
+</div>
