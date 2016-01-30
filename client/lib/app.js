@@ -5,13 +5,15 @@ Add package dependencies
 -login, signup, password stuff, security
 -pagination directives
 -google maps
+-ui-bootstrap for angular
 */
 angular.module('socially', [
 	'angular-meteor',
 	'ui.router',
 	'accounts.ui',
 	'angularUtils.directives.dirPagination',
-	'uiGmapgoogle-maps'
+	'uiGmapgoogle-maps',
+	'ui.bootstrap'
 ]);
 
 //bootstrap Angular according to platform (browser v mobile)

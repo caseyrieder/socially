@@ -1,34 +1,57 @@
-The party you selected is:
-<form>
-	Party: <input type="text" ng-model="partyDetails.party.name" ng-disabled="!partyDetails.isLoggedIn" />
-	Description: <input type="text" ng-model="partyDetails.party.description" ng-disabled="!partyDetails.isLoggedIn" />
-	Public? <input type="checkbox" ng-model="partyDetails.party.public" ng-disabled="!partyDetails.isLoggedIn" />
-	<button ng-click="partyDetails.save()">Save</button>
-</form>
-<button ui-sref="parties">Back</button>
-<!-- List users that we may want to invite -->
-<ul ng-show="partyDetails.canInvite()">
-	Users to invite:
-	<li ng-repeat="user in partyDetails.users | uninvited:partyDetails.party">
-		<div>{{ user | displayName }}</div>
-		<button ng-click="partyDetails.invite(user)">Invite</button>
-	</li>
-	<!-- Only show if all possible invitees are invited -->
-	<li ng-if="(partyDetails.users | uninvited:partyDetails.party).length <= 0">
-		Everyone is already invited
-	</li>
-</ul>
-<!-- Add Google map to template -->
-<div class="angular-google-map-container">
-	<ui-gmap-google-map
-			center="partyDetails.party.location || partyDetails.map.center"
-			events="partyDetails.map.events"
-			zoom="partyDetails.map.zoom">
-		<ui-gmap-marker
-				coords="partyDetails.party.location"
-				options="partyDetails.map.marker.options"
-				events="partyDetails.map.marker.events"
-				idKey="partyDetails.party._id">
-		</ui-gmap-marker>
-	</ui-gmap-google-map>
+<div class="row ma-party-details-container">
+	<div class="col-sm-6 col-sm-offset-3">
+		<!-- Header for form editor -->
+		<legend>
+			View and Edit Your Party Details
+		</legend>
+		<form class="form-horizontal">
+			<!-- Name field editor -->
+			<div class="form-group">
+				<label>Party Name</label>
+				<input type="text" ng-model="partyDetails.party.name" ng-disabled="partyDetails.party.owner != partyDetails.currentUserId" class="form-control">
+			</div>
+			<!-- Description field editor -->
+			<div class="form-group">
+				<label>Description</label>
+				<input type="text" ng-model="partyDetails.party.description" ng-disabled="partyDetails.party.owner != partyDetails.currentUserId" class="form-control">
+			</div>
+			<!-- Public checkbox -->
+			<div class="form-group">
+				<label>Public?</label>
+				<input type="checkbox" ng-model="partyDetails.party.public" ng-disabled="partyDetails.party.owner != partyDetails.currentUserId">
+			</div>
+			<!-- Save button -->
+			<div class="form-group" ng-show="partyDetails.party.owner == partyDetails.currentUserId">
+				<button ng-click="partyDetails.save()" class="btn btn-primary">Save</button>
+			</div>
+		</form>
+		<!-- List users to invite -->
+		<div class="ma-invite-list" ng-show="partyDetails.canInvite()">			<h3>Users to invite:</h3>
+			<ul>
+				<li ng-repeat="user in partyDetails.users | uninvited:partyDetails.party">
+					<div>{{ user | displayName }}</div>
+					<button ng-click="partyDetails.invite(user)" class="btn btn-primary">Invite</button>
+				</li>
+				<!-- Only show if all possible invitees are invited -->
+				<li ng-if="(partyDetails.users | uninvited:partyDetails.party).length <= 0">
+					Everyone is already invited
+				</li>
+			</ul>
+		</div>
+		<!-- Google map display -->
+		<h3 class="ma-map-title">Click map to set party location</h3>
+		<div class="angular-google-map-container">
+			<ui-gmap-google-map
+					center="partyDetails.party.location || partyDetails.map.center"
+					events="partyDetails.map.events"
+					zoom="partyDetails.map.zoom">
+				<ui-gmap-marker
+						coords="partyDetails.party.location"
+						options="partyDetails.map.marker.options"
+						events="partyDetails.map.marker.events"
+						idKey="partyDetails.party._id">
+				</ui-gmap-marker>
+			</ui-gmap-google-map>
+		</div>
+	</div>
 </div>

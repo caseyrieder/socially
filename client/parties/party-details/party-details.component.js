@@ -7,7 +7,7 @@ angular.module('socially').directive('partyDetails', function() {
 		controller: function($scope, $stateParams, $reactive) {
 			$reactive(this).attach($scope);
 			//Subscribe to 'parties' AND 'users' publications
-			this.suibscribe('parties');
+			this.subscribe('parties');
 			this.subscribe('users');
 			//Define helper fxns for details component
 			this.helpers({
@@ -20,8 +20,12 @@ angular.module('socially').directive('partyDetails', function() {
 					return Meteor.users.find({});
 				},
 				//Ensure that user is logged in
-				isLoggedIn: () = {
+				isLoggedIn: () => {
 					return Meteor.userId() !== null;
+				},
+				//Get current user id
+				currentUserId: () => {
+					return Meteor.userId();
 				}
 			});
 			//Define default map parameters

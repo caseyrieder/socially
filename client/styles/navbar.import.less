@@ -1,0 +1,33 @@
+/*Override bootstrap navbar*/
+.navbar {
+	background-color: #ffffff;
+	border-bottom: #eee 1px solid;
+	color: @color3;
+	font-family: 'Muli', sans-serif;
+	a {
+		color: @color3;
+		text-decoration: none !important;
+	}
+	/*Login buttons container*/
+	.navbar-right-container {
+		position: absolute;
+		top: 17px;
+		right: 17px;
+	}
+}
+/*Override Meteor login buttons*/
+#login-dropdown-list.accounts-dialog {
+	right: 14px;
+	left: auto;
+}
+/*Login buttons*/
+#login-buttons .login-button,
+.accounts-dialog .login-button {
+	background: @color3;
+	color: white;
+	border: none;
+	&:hover {
+		background: @color3;
+		color: white;
+	}
+}

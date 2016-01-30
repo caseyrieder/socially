@@ -1,0 +1,39 @@
+/*Assign color scheme*/
+@color1 : #2F2933;
+@color2 : #01A2A6;
+@color3 : #29D9C2;
+@color4 : #BDF271;
+@color5 : #FFFFA6;
+@color6 : #2F2933;
+@color7 : #FF6F69;
+/*Frame height*/ 
+html, body {
+  height: 100%;
+}
+/*Body color, top pad, fonts*/
+body {
+  background-color: #f8f8f8;
+  padding-top: 50px;
+  font-family: 'Muli', sans-serif;
+}
+/*100% Height class*/
+.h100 {
+  height: 100%;
+}
+/*100% Width class*/
+.w100 {
+  width: 100%;
+}
+/*Container media query*/ 
+.ma-main-container {
+  @media (min-width: 400px) {
+    padding-right: 0;
+  }
+}
+/*Import navbar .less file*/
+@import "navbar.import.less";
+/*Import 2 main component .less files*/
+@import "../parties/parties-list/parties-list.import.less";
+@import "../parties/party-details/party-details.import.less";
+/*Import add party modal .less file*/
+@import "../parties/add-new-party-modal/add-new-party-modal.import.less";

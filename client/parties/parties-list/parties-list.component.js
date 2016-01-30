@@ -1,14 +1,14 @@
-//Define the parties list component
+// Define the parties list component
 angular.module('socially').directive('partiesList', function() {
 	return {
 		restrict: 'E',
 		templateUrl: 'client/parties/parties-list/parties-list.html',
 		controllerAs: 'partiesList',
-		controller: function($scope, $reactive) {
+		controller: function($scope, $reactive, $modal) {
 			$reactive(this).attach($scope);
 			// Declare newParty variable
 			this.newParty = {};
-			//Add pagination, sort/order, & search defaults
+			// Add pagination, sort/order, & search defaults
 			this.perPage = 3;
 			this.page = 1;
 			this.sort = {
@@ -16,17 +16,53 @@ angular.module('socially').directive('partiesList', function() {
 			};
 			this.orderProperty = '1';
 			this.searchText = '';
-			//Add map logic & initialize map object
+			// Add map logic & initialize map object
 			this.map = {
 				center: {
 					latitude: 45,
 					longitude: -73
 				},
+				options: {
+					maxZoom: 10,
+					styles: [{
+						"featureType": "administrative",
+						"elementType": "labels.text.fill",
+						"stylers": [{"color": "#444444"}]
+					}, {
+						"featureType": "landscape",
+						"elementType": "all",
+						"stylers": [{"color": "#f2f2f2"}]
+					}, {
+						"featureType": "poi",
+						"elementType": "all",
+						"stylers": [{"visibility": "off"}]
+					}, {
+						"featureType": "road",
+						"elementType": "all",
+						"stylers": [{"saturation": -100}, {"lightness": 45}]
+					}, {
+						"featureType": "road.highway",
+						"elementType": "all",
+						"stylers": [{"visibility": "simplified"}]
+					}, {
+						"featureType": "road.arterial",
+						"elementType": "labels.icon",
+						"stylers": [{"visibility": "off"}]
+					}, {
+						"featureType": "transit",
+						"elementType": "all",
+						"stylers": [{"visibility": "off"}]
+					}, {
+						"featureType": "water",
+						"elementType": "all",
+						"stylers": [{"color": "#46bcec"}, {"visibility": "on"}]
+					}]
+				},
 				zoom: 8
 			};
-			//Subscribe to 'users' publication
+			// Subscribe to 'users' publication
 			this.subscribe('users');
-			//Subscribe to 'parties' publication, include subscription params
+			// Subscribe to 'parties' publication, include subscription params
 			this.subscribe('parties', () => {
 				return [
 					{
@@ -96,7 +132,7 @@ angular.module('socially').directive('partiesList', function() {
 			};
 			// RSVP to specific party
 			this.rsvp = (partyId, rsvp) => {
-				//Call model's rsvp method w/appropriate args & error callback
+				// Call model's rsvp method w/appropriate args & error callback
 				Meteor.call('rsvp', partyId, rsvp, (error) => {
 					if (error) {
 						console.log('Oops, unable to rsvp!');
@@ -116,6 +152,28 @@ angular.module('socially').directive('partiesList', function() {
 					return (_.contains(party.invited, user._id) && !_.findWhere(party.rsvps, {user: user._id}));
 				});
 			};
+			// Open new party modal
+			this.openAddNewPartyModal = function () {
+				$modal.open({
+					animation: true,
+					template: '<add-new-party-modal></add-new-party-modal>'
+				});
+			};
+			// Check RSVP
+			this.isRSVP = (rsvp, party) => {
+				// Ensure user exists
+				if (Meteor.userId() == null) {
+					return false;
+				}
+				// Find rsvp index from partiy's list of rsvps
+				let rsvpIndex = party.myRsvpIndex;
+				rsvpIndex = rsvpIndex || _.indexOf(_.pluck(party.rsvps, 'user'), Meteor.userId());
+				// If rsvp index exists
+				if (rsvpIndex !== -1) {
+					party.myRsvpIndex = rsvpIndex;
+					return party.rsvps[rsvpIndex].rsvp === rsvp;
+				}
+			}
 		}
 	}
 });
