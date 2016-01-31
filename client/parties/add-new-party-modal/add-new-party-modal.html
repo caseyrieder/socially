@@ -1,28 +1,41 @@
-<div class="container-fluid ma-add-new-party-container">
-	<!-- Not logged in alert -->
-  <div class="alert alert-info" ng-hide="addNewPartyModal.isLoggedIn">
-    Please log in to create a party
-  </div>
- 	<!-- New Party form -->
-  <form ng-show="addNewPartyModal.isLoggedIn">
-    <h2>Create a new party</h2>
- 		<!-- Name input -->
-    <div class="form-group">
-      <label for="nameInput">Name</label>
-      <input ng-model="addNewPartyModal.newParty.name" id="nameInput" type="text" class="form-control">
+<md-dialog style="min-width: 600px;">
+  <form>
+    <!-- Toolbar -->
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create a new party</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    <!-- Container -->
+    <md-dialog-content style="min-width:300px;max-width:800px;max-height:810px;">
+      <!-- Ensure user is logged in -->
+      <div ng-show="addNewPartyModal.isLoggedIn">
+        <!-- Name input -->
+        <md-input-container>
+          <label>Name</label>
+          <input ng-model="addNewPartyModal.newParty.name" id="nameInput" type="text" aria-label="Name">
+        </md-input-container>
+        <!-- Description input -->
+        <md-input-container>
+          <label>Description</label>
+          <input ng-model="addNewPartyModal.newParty.description" id="description" type="text" aria-label="Description">
+        </md-input-container>
+        <!-- Public checkbox -->
+        <md-checkbox ng-model="addNewPartyModal.newParty.public" id="public" aria-label="Public">
+          Public
+        </md-checkbox>
+      </div>
+    </md-dialog-content>
+    <!-- Undo & Submit buttons -->
+    <div class="md-actions" layout="row">
+      <span flex></span>
+      <md-button ng-click="addNewPartyModal.close()">
+        Close
+      </md-button>
+      <md-button ng-click="addNewPartyModal.addNewParty()" style="margin-right:20px;">
+        Add
+      </md-button>
     </div>
-    <!-- Description input -->
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input ng-model="addNewPartyModal.newParty.description" id="description" type="text" class="form-control">
-    </div>
-    <!-- Public checkbox -->
-    <div class="form-group">
-      <label for="public">
-        <input type="checkbox" ng-model="addNewPartyModal.newParty.public" id="public"> Public
-      </label>
-    </div>
-    <!-- Submit button -->
-    <button ng-click="addNewPartyModal.addNewParty()" class="btn">Add</button>
   </form>
-</div>
+</md-dialog>

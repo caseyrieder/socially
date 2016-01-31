@@ -4,7 +4,7 @@ angular.module('socially').directive('partiesList', function() {
 		restrict: 'E',
 		templateUrl: 'client/parties/parties-list/parties-list.html',
 		controllerAs: 'partiesList',
-		controller: function($scope, $reactive, $modal) {
+		controller: function($scope, $reactive, $mdDialog) {
 			$reactive(this).attach($scope);
 			// Declare newParty variable
 			this.newParty = {};
@@ -117,7 +117,7 @@ angular.module('socially').directive('partiesList', function() {
 				}
 			};
 			// Define method for gathering the party owner & returning appropriate name
-			this.getPartyCreator = function(party) {
+			this.getPartyCreator = function (party) {
 				if (!party) {
 					return '';
 				}
@@ -154,9 +154,9 @@ angular.module('socially').directive('partiesList', function() {
 			};
 			// Open new party modal
 			this.openAddNewPartyModal = function () {
-				$modal.open({
-					animation: true,
-					template: '<add-new-party-modal></add-new-party-modal>'
+				$mdDialog.show({
+					template: '<add-new-party-modal></add-new-party-modal>',
+					clickOutsideToClose: true
 				});
 			};
 			// Check RSVP

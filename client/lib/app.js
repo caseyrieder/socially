@@ -5,7 +5,7 @@ Add package dependencies
 -login, signup, password stuff, security
 -pagination directives
 -google maps
--ui-bootstrap for angular
+-angular material
 */
 angular.module('socially', [
 	'angular-meteor',
@@ -13,8 +13,20 @@ angular.module('socially', [
 	'accounts.ui',
 	'angularUtils.directives.dirPagination',
 	'uiGmapgoogle-maps',
-	'ui.bootstrap'
+	'ngMaterial'
 ]);
+
+//Define material icon provider
+angular.module('socially').config(($mdIconProvider) => {
+	$mdIconProvider
+		.iconSet("social", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-social.svg")
+		.iconSet("action", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg")
+		.iconSet("communication", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-communication.svg")
+		.iconSet("content", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-content.svg")
+		.iconSet("toggle", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-toggle.svg")
+		.iconSet("navigation", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg")
+		.iconSet("image", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-image.svg");
+});
 
 //bootstrap Angular according to platform (browser v mobile)
 function onReady() {
