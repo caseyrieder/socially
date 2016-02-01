@@ -4,7 +4,7 @@ angular.module('socially').directive('partiesList', function() {
 		restrict: 'E',
 		templateUrl: 'client/parties/parties-list/parties-list.html',
 		controllerAs: 'partiesList',
-		controller: function($scope, $reactive, $mdDialog) {
+		controller: function($scope, $reactive, $mdDialog, $filter) {
 			$reactive(this).attach($scope);
 			// Declare newParty variable
 			this.newParty = {};
@@ -73,6 +73,8 @@ angular.module('socially').directive('partiesList', function() {
 					this.getReactively('searchText')
 				]
 			});
+			//Subscribe to 'images' publication
+			this.subscribe('images');
 			// Helper functions for this component
 			this.helpers({
 				// List parties from Collection
@@ -94,6 +96,10 @@ angular.module('socially').directive('partiesList', function() {
 				// Get the current user Id
 				currentUserId: () => {
 					return Meteor.userId();
+				},
+				// Get images from CollectionFS
+				images: () => {
+					return Images.find({});
 				}
 			});
 			// Insert party into Collection
@@ -173,7 +179,19 @@ angular.module('socially').directive('partiesList', function() {
 					party.myRsvpIndex = rsvpIndex;
 					return party.rsvps[rsvpIndex].rsvp === rsvp;
 				}
-			}
+			};
+			// Set 1st image from images array as background image
+			this.getMainImage = (images) => {
+				// Confirm images exists & there is at least 1 image in array
+				if (images && images.length && images[0] && images[0]) {
+					// Get id of 1st image, save dataUrl of that id
+					var url = $filter('filter')(this.images, {_id: images[0]})[0].url();
+					//return main-image as background image
+					return {
+						'background-image': 'url("' + url + '")'
+					}
+				}
+			};
 		}
 	}
 });

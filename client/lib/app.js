@@ -5,7 +5,11 @@ Add package dependencies
 -login, signup, password stuff, security
 -pagination directives
 -google maps
--angular material
+-material styles
+-file uploader
+-image cropper
+-image metadata editor
+-image/view sorter
 */
 angular.module('socially', [
 	'angular-meteor',
@@ -13,7 +17,11 @@ angular.module('socially', [
 	'accounts.ui',
 	'angularUtils.directives.dirPagination',
 	'uiGmapgoogle-maps',
-	'ngMaterial'
+	'ngMaterial',
+	'ngFileUpload',
+	'ngImgCrop',
+	'xeditable',
+	'angular-sortable-view'
 ]);
 
 //Define material icon provider

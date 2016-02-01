@@ -1,5 +1,5 @@
 <md-dialog style="min-width: 600px;">
-  <form>
+  <div>
     <!-- Toolbar -->
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -21,6 +21,44 @@
           <label>Description</label>
           <input ng-model="addNewPartyModal.newParty.description" id="description" type="text" aria-label="Description">
         </md-input-container>
+        <!-- File/image upload -->
+        <md-whiteframe class="md-whiteframe-z1" layout="column">
+          <div layout="row" class="images-container-title">
+            <div flex>
+              <h3>Add photos to this party</h3>
+              <!-- Selector (hidden during crop) -->
+              <div ng-hide="addNewPartyModal.cropImgSrc" ngf-drop ngf-select
+                  ngf-change="addNewPartyModal.addImages($files)"
+                  ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box"
+                  ngf-multiple="false" ngf-allow-dir="false" ngf-accept="'image/*"
+                  ngf-drop-available="true">
+                <div>Click here to select images</div>
+                <div><strong>OR</strong></div>
+                <div>You can also drop image here</div>
+              </div>
+              <!-- Cropper (hidden without selection) -->
+              <div ng-show="addNewPartyModal.cropImgSrc" class="ng-crop-container">
+                <h3>Great! Now crop the image:</h3><br/>
+                <!-- Save button (disabled without seleted image) -->
+                <md-button ng-click="addNewPartyModal.saveCroppedImage()" ng-disabled="!addNewPartyModal.cropImgSrc" class="md-primary">
+                  Save Image
+                </md-button>
+                <img-crop image="addNewPartyModal.cropImgSrc" result-image="addNewPartyModal.myCroppedImage" area-type="square"></img-crop>
+              </div>
+            </div>
+          </div>
+          <!-- Display uploaded images -->
+          <div layout="row" class="images-container-title" sv-root sv-part="addNewPartyModal.newParty.images">
+            <div sv-element class="party-image-container" ng-repeat="image in addNewPartyModal.newParty.images">
+              <!-- Highlight first image (main) -->
+              <div class="main-image" ng-show="$index === 0">Main Image</div>
+              <!-- Show thumbnail -->
+              <img draggable="false" ng-src="{{ image.url({store: 'thumbnail'}) }}"/><br/>
+              <!-- Insert metadata -->
+              <a href="#" editable-text="image.metadata.description" onbeforesave="addNewPartyModal.updateDescription($data, image)">{{ image.metadata.description || 'Click to add description' }}</a>
+            </div>
+          </div>
+        </md-whiteframe>
         <!-- Public checkbox -->
         <md-checkbox ng-model="addNewPartyModal.newParty.public" id="public" aria-label="Public">
           Public
@@ -37,5 +75,5 @@
         Add
       </md-button>
     </div>
-  </form>
+  </div>
 </md-dialog>

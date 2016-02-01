@@ -1,0 +1,53 @@
+/*Image selector box*/
+.drop-box {
+  background: #F8F8F8;
+  border: 5px dashed #DDD;
+  width: 230px;
+  height: 120px;
+  text-align: center;
+  padding-top: 25px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+/*Successful drag*/
+.drop-box.dragover {
+  border: 5px dashed blue;
+}
+/*Drag error*/
+.drop-box.dragover-err {
+  border: 5px dashed red;
+}
+/*Uploaded image*/
+.uploaded-image {
+  max-height: 100px;
+  max-width: 200px;
+}
+/*Crop container*/
+.ng-crop-container {
+  height: 400px;
+}
+/*Full images row*/
+.images-container-title {
+  padding-bottom: 30px;
+}
+/*Sortable images container*/
+.party-image-container {
+  position: relative;
+  margin-right: 10px;
+  max-height: 200px;
+  max-width: 200px;
+  /*Each image*/
+  img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+/*Main (1st) image highlight*/
+.main-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #F8F8F8;
+}

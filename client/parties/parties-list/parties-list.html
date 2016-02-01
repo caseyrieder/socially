@@ -28,6 +28,11 @@
 				<div dir-paginate="party in partiesList.parties | itemsPerPage: partiesList.perPage" total-items="partiesList.partiesCount" class="ma-party">
 					<!-- Party card -->
 					<md-card>
+						<!-- Display main image in background -->
+						<div ng-if="party.images && party.images.length > 0"
+								ng-style="partiesList.getMainImage(party.images)"
+								class="party-image">	
+						</div>
 						<md-card-content>
 							<!-- Display party name & description -->
 							<h2 class="ma-title-ma-name" style=""><a href="/parties/{{party._id}}">{{party.name}}</a></h2>
