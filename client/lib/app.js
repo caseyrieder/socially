@@ -1,5 +1,5 @@
 /*
-Add package dependencies
+Define modules:
 -angular for meteor
 -ui router to handle deep linking
 -login, signup, password stuff, security
@@ -11,7 +11,7 @@ Add package dependencies
 -image metadata editor
 -image/view sorter
 */
-angular.module('socially', [
+let modulesToLoad = [
 	'angular-meteor',
 	'ui.router',
 	'accounts.ui',
@@ -22,9 +22,18 @@ angular.module('socially', [
 	'ngImgCrop',
 	'xeditable',
 	'angular-sortable-view'
-]);
-
-//Define material icon provider
+];
+// If mobile/cordova envt, load 'socially.mobile' w/other modules
+if (Meteor.isCordova) {
+  modulesToLoad = modulesToLoad.concat(['socially.mobile']);
+}
+// Otherwise, load 'socially.browser' w/other modules
+else {
+  modulesToLoad = modulesToLoad.concat(['socially.browser']);
+}
+// Load all modules
+angular.module('socially', modulesToLoad);
+// Define material icon provider
 angular.module('socially').config(($mdIconProvider) => {
 	$mdIconProvider
 		.iconSet("social", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-social.svg")
@@ -36,7 +45,7 @@ angular.module('socially').config(($mdIconProvider) => {
 		.iconSet("image", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-image.svg");
 });
 
-//bootstrap Angular according to platform (browser v mobile)
+// Bootstrap Angular according to platform (browser v mobile)
 function onReady() {
   angular.bootstrap(document, ['socially'], {
     strictDi: true
