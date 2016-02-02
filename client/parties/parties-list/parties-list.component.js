@@ -2,7 +2,15 @@
 angular.module('socially').directive('partiesList', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'client/parties/parties-list/parties-list.html',
+		templateUrl: () => {
+      // Assign platform-appropriate view
+      if (Meteor.isCordova) {
+        return 'packages/socially-mobile/client/parties/parties-list/parties-list.html';
+      }
+      else {
+        return 'packages/socially-browser/client/parties/parties-list/parties-list.html';
+      }
+    },
 		controllerAs: 'partiesList',
 		controller: function($scope, $reactive, $mdDialog, $filter) {
 			$reactive(this).attach($scope);
@@ -102,12 +110,6 @@ angular.module('socially').directive('partiesList', function() {
 					return Images.find({});
 				}
 			});
-			// Insert party into Collection
-			this.addParty = () => {
-				this.newParty.owner = Meteor.user()._id;
-				Parties.insert(this.newParty);
-				this.newParty = {};
-			};
 			// Delete party from Collection
 			this.removeParty = (party) => {
 				Parties.remove({_id: party._id});

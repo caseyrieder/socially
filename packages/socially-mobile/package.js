@@ -12,12 +12,16 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
+  //Enable angular & ionic dependencies
   api.use('angular');
+  api.use('driftyco:ionic');
   // Use user-created login files on client platform
   api.addFiles([
     'client/lib/module.js',
     'client/auth/login/login.component.js',
-    'client/auth/login/login.html'
+    'client/auth/login/login.html',
+    'client/socially/socially.html',
+    'client/parties/parties-list/parties-list.html'
   ], 'client');
 });
 

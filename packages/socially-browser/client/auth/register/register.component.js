@@ -1,7 +1,7 @@
-angular.module('socially').directive('register', function() {
+angular.module('socially.browser').directive('register', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'client/auth/register/register.html',
+		templateUrl: 'packages/socially-browser/client/auth/register/register.html',
 		controllerAs: 'register',
 		controller: function ($scope, $reactive, $state) {
 			$reactive(this).attach($scope);

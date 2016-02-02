@@ -1,7 +1,7 @@
-angular.module('socially').directive('resetpw', function() {
+angular.module('socially.browser').directive('resetpw', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'client/auth/reset-password/reset-password.html',
+		templateUrl: 'packages/socially-browser/client/auth/reset-password/reset-password.html',
 		controllerAs: 'resetpw',
 		controller: function ($scope, $reactive, $state) {
 			$reactive(this).attach($scope);
